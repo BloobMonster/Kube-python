@@ -36,4 +36,5 @@
     docker build -f docker/Dockerfile -t fast-api-python:latest . --progress=plain --no-cache
 
 ### To Run Docker Image
-1- docker run -p 8000:8000 fast-api-python:latest
+
+    docker run -p 8000:8000 fast-api-python:latest
