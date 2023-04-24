@@ -20,6 +20,7 @@
 
 5 - Add 3 folders for app, docker, and kubernetes -
 
+    cd env
     mkdir app
     mkdir docker
     mkdir kubernetes
@@ -32,9 +33,12 @@
     Note: Move resulted to ./app
 
 2- To build the docker image -
-
+    cd env
     docker build -f docker/Dockerfile -t fast-api-python:latest . --progress=plain --no-cache
 
 ### To Run Docker Image
-
+    cd env
     docker run -p 8000:8000 fast-api-python:latest
+
+#### To see Fast-Api generated docs -
+    http://localhost:8000/docs
