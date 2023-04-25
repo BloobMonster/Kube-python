@@ -1,35 +1,48 @@
 import uvicorn
-from fastapi import FastAPI
+from typing import List
+
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-# error cases
+from sqlalchemy.orm import Session
+from starlette.responses import RedirectResponse
+
+from .database.Database import engine, SessionLocal
+from .model.Models import Record as modelRecord
+from .model.Models import Base as modelBase
+from .schema.Schemas import Record as schemaRecord
+
+modelBase.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True
+    allow_credentials=True,
 )
 
+
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
 @app.get("/")
-async def root():
-    return {"Hello": "World"}
+def main():
+    return RedirectResponse(url="/docs/")
 
 
-@app.put("/get/item/{item_id}")
-async def read_item(item_id):
-    return {"item_id": item_id}
+@app.get("/records/", response_model=List[schemaRecord])
+def show_records(db: Session = Depends(get_db)):
+    records = db.query(modelRecord).all()
+    return records
 
-
-@app.get("/get/item/int/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -32,3 +32,6 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
+      env:
+        - name: DB_CONN
+          value: "mysql+pymysql://root:PASSWORD@HOSTNAME:3306/records_db"
