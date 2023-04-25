@@ -7,9 +7,9 @@ spec:
     app: fast-api-python
   ports:
   - protocol: "TCP"
+    targetPort: 8000
     port: 8000
-    targetPort: 5000
-  type: LoadBalancer
+  type: NodePort
 
 ---
 apiVersion: apps/v1
@@ -28,10 +28,10 @@ spec:
     spec:
       containers:
       - name: fast-api-python
-        image: fast-api-python:latest
+        image: docker.io/library/fast-api-python:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 5000
-      env:
+        - containerPort: 8000
+        env:
         - name: DB_CONN
-          value: "mysql+pymysql://root:PASSWORD@HOSTNAME:3306/records_db"
+          value: "mysql+pymysql://root:password@mycluster:3306/records_db"
