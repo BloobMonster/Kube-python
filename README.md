@@ -33,6 +33,7 @@
     Note: Move resulted to ./app
 
 2- To build the docker image -
+
     cd env
     docker build -f docker/Dockerfile -t fast-api-python:latest . --progress=plain --no-cache
 
