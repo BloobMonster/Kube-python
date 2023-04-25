@@ -6,10 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from starlette.responses import RedirectResponse
 
-from .database.Database import engine, SessionLocal
-from .model.Models import Record as modelRecord
-from .model.Models import Base as modelBase
-from .schema.Schemas import Record as schemaRecord
+from database.Database import engine, SessionLocal
+from model.Models import Record as modelRecord, Base as modelBase
+from schema.Schemas import Record as schemaRecord
 
 modelBase.metadata.create_all(bind=engine)
 
